@@ -20,7 +20,7 @@ router.post(
   }),
   async (req, res) => {
     console.log("Req Handler");
-    req.flash("success", "Welcome back!");
+    req.flash("success", `Welcome back ${req.session.passport.user}!`);
     console.log("Success message set: ");
     res.redirect("/listings");
     // res.send("You are logged in!");
