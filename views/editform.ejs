@@ -1,0 +1,56 @@
+<%- layout("/layouts/boilerplate.ejs") %>
+<form class="form" action="/listings/<%= result._id %>" method="post">
+  <!-- <h4 class="form-label">Enter Title</h4>
+  <input class="form-control" name="title" value="<%= result.title %>" />
+  <br />
+  <h4>Enter Description of listing</h4>
+  <textarea name="description" rows="20" cols="35">
+<%= result.description %></textarea
+  >
+  <br />
+  <h4>Enter location</h4>
+  <input name="location" value="<%= result.location %>" />
+  <br />
+  <h4>Enter price</h4>
+  <input name="price" value="<%= result.price%>" type="number" />
+  <br />
+  <h4>Enter image link/URL</h4>
+  <input name="image.url" value="<%= result.image.url %>" />
+  <br />
+  <button>Submit</button> -->
+
+  <h2 class="title">Edit Listing</h2>
+  <h4 class="form-label">Enter Title</h4>
+  <input class="form-control" name="title" value="<%= result.title %>" placeholder="Enter title" />
+  <br />
+  <h4 class="form-label">Enter Description of listing</h4>
+  <textarea
+    name="description"
+    placeholder="Enter listing decription"
+    rows="6"
+    cols="20"
+    class="form-control"
+  ><%= result.description %></textarea>
+  <br />
+  <div class="loc">
+    <div class="loc-in">
+        <h4 class="form-label">Enter location</h4>
+        <input  value="<%= result.location %>" class="form-control" name="location" placeholder="Enter location" />
+    </div>
+    <div class="loc-in">
+        <h4 class="form-label">Enter country</h4>
+        <input value="<%= result.country%>" class="form-control" name="country" placeholder="Enter country" />
+    </div>
+    
+  </div>
+ 
+  <br />
+  <h4 class="form-label"> Enter price</h4>
+  <input value="<%= result.price%>" class="form-control" name="price" placeholder="Enter price" type="number" />
+  <br />
+  <h4 class="form-label">Enter image link/URL</h4>
+  <input  value="<%= result.image.url %>" class="form-control" name="image[url]" placeholder="Enter image url" />
+  <br />
+  <button class="btn">Edit</button>
+
+</form>

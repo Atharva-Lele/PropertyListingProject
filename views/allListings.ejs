@@ -1,0 +1,31 @@
+<%- layout("/layouts/boilerplate") %>
+<!-- <%= success %> -->
+
+<h1>All Listings</h1>
+<!-- <form action="listings/newUser" method="get">
+        <button>Create new listing</button>
+    </form>
+    <br> -->
+<div class="container-cards">
+  <% result.forEach(element => { %>
+    <a href="/listings/<%= element._id%>" class="card-anchor">
+  <div class="card listing-card <%= element._id%>" style="width: 20rem">
+    <img
+      src="<%=element.image.url%>"
+      class="card-img-top <%= element._id%>"
+      alt="listing_image"
+    />
+    <div class="card-img-overlay"></div>
+    <div class="card-body <%= element._id%>">
+      <h5 class="card-title <%= element._id%>"><%= element.title %></h5>
+      <p class="card-text <%= element._id%>"><%= element.location %></p>
+      <p class="card-price <%= element._id%>">
+        <b>&#8377;<nbsp></nbsp> <nbsp></nbsp><%= element.price %> </b>/ night
+      </p>
+      <!-- <a href="/listings/<%= element._id %>" class="btn btn-primary">Go somewhere</a> -->
+    </div>
+  </div>
+ </a>
+  <% }); %>
+</div>
+

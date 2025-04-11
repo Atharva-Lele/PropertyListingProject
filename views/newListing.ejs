@@ -1,0 +1,45 @@
+<%- layout("/layouts/boilerplate.ejs") %>
+
+<form class="form needs-validation" action="/listings" method="post" novalidate >
+  <h2 class="title" >Add new Listing</h2>
+  <h4 class="form-label">Enter Title</h4>
+  <input required class="form-control" name="title" placeholder="Enter title" />
+  <div class="invalid-feedback">Please enter a valid title</div>
+  <br />
+  <h4 class="form-label">Enter Description of listing</h4>
+  <textarea
+    name="description"
+    placeholder="Enter listing decription"
+    rows="6"
+    cols="20"
+    class="form-control"
+    required
+  ></textarea>
+  <div class="invalid-feedback">Please enter appropriate description</div>
+  <br />
+  <div class="loc">
+    <div class="loc-in">
+        <h4 class="form-label">Enter location</h4>
+        <input required class="form-control" name="location" placeholder="Enter location" />
+        <div class="invalid-feedback">Please enter appropriate location</div>
+
+    </div>
+    <div class="loc-in">
+        <h4 class="form-label">Enter country</h4>
+        <input required class="form-control" name="country" placeholder="Enter country" />
+        <div class="invalid-feedback">Please enter appropriate country</div>
+
+    </div>
+    
+  </div>
+ 
+  <br />
+  <h4 class="form-label"> Enter price</h4>
+  <input required class="form-control" name="price" placeholder="Enter price" type="number" />
+  <div class="invalid-feedback">Please enter appropriate Price</div>
+  <br />
+  <h4 class="form-label">Enter image link/URL</h4>
+  <input class="form-control" name="image[url]" placeholder="Enter image url" />
+  <br />
+  <button class="btn">Add</button>
+</form>
