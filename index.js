@@ -49,17 +49,15 @@ const sessionObj = {
 };
 
 app.use(session(sessionObj));
-app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new localStrategy(User.authenticate()));
 
-// Flash message middleware
-app.use((req, res, next) => {
-  res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
-  next();
-});
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use(flash());
+
 
 main()
   .then(() => {
@@ -70,16 +68,6 @@ main()
 async function main() {
   await mongoose.connect("mongodb://127.0.0.1:27017/airbnb");
 }
-
-passport.serializeUser(function (user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function (id, done) {
-  User.findById(id, function (err, user) {
-    done(err, user);
-  });
-});
 
 app.listen(3000, () => {
   console.log("Server connected");
@@ -92,20 +80,29 @@ app.get("/", (req, res) => {
 // app.use(flashSetter);
 
 app.use((req, res, next) => {
-  // console.log("Middleware executed -------- " + req.url + " " + req.method);
+  console.log("Middleware executed -------- " + req.url + " " + req.method);
   // console.log("Success:", `${res.locals.success}`);
   // console.log("Error:", `${res.locals.error}`);
-  // res.locals.success = req.flash("success");
-  // res.locals.error = req.flash("error");
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  console.log("Debug middleware - User:", req.user ? "User logged in" : "No user");
+  console.log("Debug middleware - Session:", req.session);
+  console.log(res.locals.success);
+  console.log(res.locals.error);
   next();
 });
 
+// app.use((req, res, next) => {
+//   console.log("Debug middleware - URL:", req.url);
+//   console.log("Debug middleware - Method:", req.method);
+  
+//   next();
+// });
+
+app.use("/login", loginRoute);
 app.use("/listings", listings);
 app.use("/listings/:id/reviews", reviews);
 app.use("/signup", userRoute);
-app.use("/login", loginRoute);
 
 // app.get("/demouser", async (req, res) => {
 //   let fakeUser = new User({
@@ -128,14 +125,15 @@ app.use((err, req, res, next) => {
   // console.dir(err);
   // console.log(err);
   console.log("ERROR HANDLER TRIGGERED");
-  console.log("Error type:", typeof err);
+  // console.log("Error type:", typeof err);
+  console.log(err);
   console.log(
     "Is Mongoose Model:",
     err.constructor && err.constructor.name === "model"
   );
   console.log("Request path:", req.path);
   console.log("Request method:", req.method);
-  console.log("Stack trace:", new Error().stack);
+  // console.log("Stack trace:", new Error().stack);
 
   res.status(err.statusCode || 500).render("error.ejs", { err });
 });

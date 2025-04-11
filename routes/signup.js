@@ -6,17 +6,6 @@ const passport = require("passport");
 const localStrategy = require("passport-local");
 
 
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  User.findById(id).then( function (err, user) {
-    done(err, user);
-  });
-});
-
-
 //signup routes
 router.get("/", (req, res) => {
   res.render("signup.ejs");
@@ -38,6 +27,7 @@ router.post("/", async (req, res) => {
   } catch (e) {
     req.flash("error", e.message);
     res.redirect("/signup");
+    
   }
 });
 

@@ -21,15 +21,20 @@ const ValidateListings = (req, res, next) => {
 
 router.get(
   "/",
-  wrapAsync(async (req, res) => {
+  async (req, res, next) => {
     try {
+      console.log(res.locals.success + res.locals.error);
       Listing.find({}).then((result) => {
-        res.render("allListings.ejs", { result });
+        res.render("allListings.ejs", { result,
+          // success: req.flash("success"),
+          // error: req.flash("error")
+        });
       });
     } catch (err) {
-      next(err);
+      console.log(err);
+      next();
     }
-  })
+  }
 );
 
 //new listing serve form
