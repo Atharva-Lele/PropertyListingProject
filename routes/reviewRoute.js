@@ -6,6 +6,7 @@ const ExpressError = require("../utils/ExpressError.js");
 // const mongoose = require("mongoose");
 const Review = require("../models/reviews.js");
 const { Listingschema, reviewSchema } = require("../schema.js");
+const isLoggedIn = require("../utils/middlewares.js");
 
 const ValidateReview = (req, res, next) => {
   let result = reviewSchema.validate(req.body);
@@ -20,7 +21,7 @@ const ValidateReview = (req, res, next) => {
 
 //review post route
 router.post(
-  "/",
+  "/",isLoggedIn,
   ValidateReview,
   wrapAsync(async (req, res) => {
     let listing = await Listing.findById(req.params.id);
@@ -41,7 +42,7 @@ router.post(
 
 router.delete(
   //the id parameter of in the original link gets only restricted to index.js if we use this way of routing, if we want both files to access all the params, use mergeParams : true in the Router object
-  "/:reviewId",
+  "/:reviewId",isLoggedIn,
   wrapAsync(async (req, res) => {
     let { id, reviewId } = req.params;
     await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } }); //$pull is a Mongo operator used to remove all occurences of reviewId in reviews array

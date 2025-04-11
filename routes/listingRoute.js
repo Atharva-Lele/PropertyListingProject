@@ -5,6 +5,7 @@ const Listing = require("../models/listing.js");
 const ExpressError = require("../utils/ExpressError.js");
 const mongoose = require("mongoose");
 const flash = require("connect-flash");
+const isLoggedIn = require('../utils/middlewares.js');
 
 const { Listingschema, reviewSchema } = require("../schema.js");
 
@@ -38,7 +39,7 @@ router.get(
 );
 
 //new listing serve form
-router.get("/newUser", (req, res) => {
+router.get("/newUser", isLoggedIn, (req, res) => {
   // Static routes should always come before dynamic ones, express expects newUser to be an id if we write that route after /listings/:id
   res.render("newListing.ejs");
 });
@@ -56,7 +57,7 @@ router.post(
 );
 
 router.get(
-  "/:id/edit",
+  "/:id/edit",isLoggedIn,
   wrapAsync(async (req, res, next) => {
     let { id } = req.params;
     Listing.findById(id).then((result) => {
@@ -82,7 +83,7 @@ router.post(
 
 //delete route
 router.delete(
-  "/:id",
+  "/:id",isLoggedIn,
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     let deletedObj = await Listing.findByIdAndDelete(id);
