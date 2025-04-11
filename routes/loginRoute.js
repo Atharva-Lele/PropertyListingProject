@@ -8,6 +8,10 @@ const flashSetter = require("../utils/flashSetter");
 //login routes
 
 router.get("/", (req, res) => {
+  if(req.isAuthenticated()){
+    req.flash("error", "You are already logged in, logout first");
+    res.redirect('/listings');
+  }
   res.render("login.ejs");
 });
 

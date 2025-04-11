@@ -121,6 +121,17 @@ app.use("/signup", userRoute);
 //   // next(new Error("Page not found"));
 // });
 
+app.get("/logout", (req, res,next)=>{
+  req.logout((err)=>{
+    if(err){
+      next(err);
+    }else{
+      req.flash("success", "you are logged out!");
+      res.redirect('/listings');
+    }
+  })
+})
+
 app.use((err, req, res, next) => {
   // console.dir(err);
   // console.log(err);
