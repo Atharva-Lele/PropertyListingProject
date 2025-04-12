@@ -1,12 +1,13 @@
 const Listing = require('../models/listing');
 const ExpressError = require("../utils/ExpressError.js");
-const {Listingschema, reviewSchema} = require('../schema.js')
+const {Listingschema, reviewSchema} = require('../schema.js');
+const Review = require('../models/reviews.js');
 
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.session.redirectUrl = req.originalUrl;
     req.flash("error", "you must be logged in");
-    res.redirect("/login");
+    return res.redirect("/login");
   } 
   next();
 };
@@ -49,3 +50,13 @@ module.exports.ValidateReview = (req, res, next) => {
     next();
   }
 };
+
+module.exports.isAuthor = async (req, res, next)=>{
+  let {id, reviewId} = req.params;
+  let review = await Review.findById(reviewId);
+  if(!review.author._id.equals(res.locals.currUser._id)){
+    req.flash("error", "Not authorized to delete");
+    return res.redirect(`/listings/${id}`)
+  }
+  next();
+}

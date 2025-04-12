@@ -4,12 +4,14 @@ const wrapAsync = require("../utils/wrapAsync");
 const Listing = require("../models/listing.js");
 const mongoose = require("mongoose");
 const flash = require("connect-flash");
-const { isLoggedIn, isOwner, ValidateListings } = require("../utils/middlewares.js");
+const {
+  isLoggedIn,
+  isOwner,
+  ValidateListings,
+} = require("../utils/middlewares.js");
 const methodOverride = require("method-override");
 
 const { Listingschema, reviewSchema } = require("../schema.js");
-
-
 
 router.get("/", async (req, res, next) => {
   try {
@@ -104,7 +106,12 @@ router.get(
     }
 
     const result = await Listing.findById(id)
-      .populate("reviews")
+      .populate({
+        path: "reviews",
+        populate: {
+          path: 'author',
+        },
+      })
       .populate("owner");
 
     if (!result) {
