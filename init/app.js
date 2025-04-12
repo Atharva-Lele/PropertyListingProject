@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Listing = require("../models/listing.js");
-let sample = require('./data.js');
+let sample = require("./data.js");
 
 let app = express();
 
@@ -15,9 +15,13 @@ async function main() {
   await mongoose.connect("mongodb://127.0.0.1:27017/airbnb");
 }
 
-let initDb = async ()=>{
-    await Listing.deleteMany({});
-    await Listing.insertMany(sample.data);
-}
+let initDb = async () => {
+  await Listing.deleteMany({});
+  sample.data = sample.data.map((obj) => ({
+    ...obj,
+    owner: "67f798f29da401f38ab7d669",
+  }));
+  await Listing.insertMany(sample.data);
+};
 
 initDb();
