@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
   }
   else{
     // console.log(req.headers.referer.slice(21)); //change when deploying, 21 is for localhost
-    res.locals.referUrl = req.headers.referer.slice(21); 
+    // res.locals.referUrl = req.headers.referer.slice(21); 
   }
   res.render("login.ejs");
 });

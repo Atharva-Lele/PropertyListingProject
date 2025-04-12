@@ -6,18 +6,9 @@ const ExpressError = require("../utils/ExpressError.js");
 // const mongoose = require("mongoose");
 const Review = require("../models/reviews.js");
 const { Listingschema, reviewSchema } = require("../schema.js");
-const {isLoggedIn} = require("../utils/middlewares.js");
+const {isLoggedIn, ValidateReview} = require("../utils/middlewares.js");
 
-const ValidateReview = (req, res, next) => {
-  let result = reviewSchema.validate(req.body);
-  if (result.error) {
-    let error = result.error.details[0].message;
-    console.log(error);
-    throw new ExpressError(300, error);
-  } else {
-    next();
-  }
-};
+
 
 //review post route
 router.post(

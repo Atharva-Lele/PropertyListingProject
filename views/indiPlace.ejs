@@ -1,5 +1,5 @@
 <%- layout("/layouts/boilerplate") %>
-<h3 class="title"><%= result.title %></h3>
+<h3 class="title text-center"><%= result.title %></h3>
 <div class="card-wrapper">
   <div class="card listing-card" style="width: 48%">
     <img src="<%= result.image.url %>" class="card-img-top indiImg" />
@@ -7,6 +7,7 @@
     <div class="card-body">
       <ul>
         <li class="title"><%= result.title %></li>
+        <li><b>Owned by </b><i> <%= result.owner.username %></i></li>
         <li><%= result.description %></li>
         <li><i><%= result.location %></i></li>
         <li><b>&#8377; <%= result.price %></b> / night</li>
@@ -14,6 +15,7 @@
       </ul>
     </div>
   </div>
+  <% if(currUser && currUser._id.equals(result.owner._id)){ %>
   <div class="btn-wrapper">
     <form action="/listings/<%= result._id%>/edit" method="get">
       <button class="btn btn-sm">Edit listing</button>
@@ -22,6 +24,9 @@
       <button class="btn btn-sm">Delete</button>
     </form>
   </div>
+  <% } %>
+
+
   <br />
   <h3>Leave a Review</h3>
   <form
@@ -56,20 +61,20 @@
   </form>
   <h2 class="mb-3">All reviews</h2>
   <div class="row justify-content-center">
-    
-     <% for(review of result.reviews) { %>
-      <div class="card col-5 mb-2 me-2" style="width: 19rem">
-        <div class="card-body">
-          <div class="card-title"><b>John Doe</b></div>
-          <p class="card-text"><%= review.comment %></p>
-          <p class="card-text"><%= review.rating %>&nbsp;stars</p>
-        </div>
-        <form action="/listings/<%= result._id%>/reviews/<%=review._id%>?_method=DELETE" method="post" >
-          <button class="btn-reviews btn btn-dark btn-sm mb-2">Delete</button>
-        </form>
+    <% for(review of result.reviews) { %>
+    <div class="card col-5 mb-2 me-2" style="width: 19rem">
+      <div class="card-body">
+        <div class="card-title"><b>John Doe</b></div>
+        <p class="card-text"><%= review.comment %></p>
+        <p class="card-text"><%= review.rating %>&nbsp;stars</p>
       </div>
-     <% } %>
-
+      <form
+        action="/listings/<%= result._id%>/reviews/<%=review._id%>?_method=DELETE"
+        method="post"
+      >
+        <button class="btn-reviews btn btn-dark btn-sm mb-2">Delete</button>
+      </form>
+    </div>
+    <% } %>
   </div>
- 
 </div>
