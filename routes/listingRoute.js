@@ -5,7 +5,7 @@ const Listing = require("../models/listing.js");
 const ExpressError = require("../utils/ExpressError.js");
 const mongoose = require("mongoose");
 const flash = require("connect-flash");
-const isLoggedIn = require('../utils/middlewares.js');
+const {isLoggedIn} = require('../utils/middlewares.js');
 
 const { Listingschema, reviewSchema } = require("../schema.js");
 

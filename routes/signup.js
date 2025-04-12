@@ -8,6 +8,10 @@ const localStrategy = require("passport-local");
 
 //signup routes
 router.get("/", (req, res) => {
+  if(req.isAuthenticated()){
+    req.flash("error", "You are already logged in, logout first");
+    res.redirect('/listings');
+  }
   res.render("signup.ejs");
 });
 
@@ -21,8 +25,13 @@ router.post("/", async (req, res) => {
       req.flash("error", "Signup Failed");
       res.redirect("/signup");
     } else {
-      req.flash("success", "Registered");
+      req.login(regedUser, (err)=>{
+        if(err){
+          next(err);
+        }
+      req.flash("success", "Registered and Logged In!");
       res.redirect("/listings");
+      })
     }
   } catch (e) {
     req.flash("error", e.message);

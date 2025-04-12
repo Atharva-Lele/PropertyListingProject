@@ -85,19 +85,9 @@ app.use((req, res, next) => {
   // console.log("Error:", `${res.locals.error}`);
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
-  console.log("Debug middleware - User:", req.user ? "User logged in" : "No user");
-  console.log("Debug middleware - Session:", req.session);
-  console.log(res.locals.success);
-  console.log(res.locals.error);
+  res.locals.currUser = req.user;
   next();
 });
-
-// app.use((req, res, next) => {
-//   console.log("Debug middleware - URL:", req.url);
-//   console.log("Debug middleware - Method:", req.method);
-  
-//   next();
-// });
 
 app.use("/login", loginRoute);
 app.use("/listings", listings);
