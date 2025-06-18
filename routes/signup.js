@@ -4,40 +4,11 @@ const User = require("../models/user");
 const flash = require("connect-flash");
 const passport = require("passport");
 const localStrategy = require("passport-local");
-
+const userController = require('../controller/userController')
 
 //signup routes
-router.get("/", (req, res) => {
-  if(req.isAuthenticated()){
-    req.flash("error", "You are already logged in, logout first");
-    res.redirect('/listings');
-  }
-  res.render("signup.ejs");
-});
+router.get("/", userController.renderSignUp);
 
-router.post("/", async (req, res) => {
-  try {
-    let { username, email, password } = req.body;
-    // console.log(username+email+password);
-    let newUser = new User({ email, username });
-    let regedUser = await User.register(newUser, password);
-    if (!regedUser) {
-      req.flash("error", "Signup Failed");
-      res.redirect("/signup");
-    } else {
-      req.login(regedUser, (err)=>{
-        if(err){
-          next(err);
-        }
-      req.flash("success", "Registered and Logged In!");
-      res.redirect("/listings");
-      })
-    }
-  } catch (e) {
-    req.flash("error", e.message);
-    res.redirect("/signup");
-    
-  }
-});
+router.post("/", userController.signUp);
 
 module.exports = router;

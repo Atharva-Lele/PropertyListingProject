@@ -25,6 +25,7 @@ const listings = require("./routes/listingRoute.js");
 const reviews = require("./routes/reviewRoute.js");
 const userRoute = require("./routes/signup.js");
 const loginRoute = require("./routes/loginRoute.js");
+const logoutRoute = require("./routes/logoutRoute.js");
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
@@ -93,34 +94,7 @@ app.use("/login", loginRoute);
 app.use("/listings", listings);
 app.use("/listings/:id/reviews", reviews);
 app.use("/signup", userRoute);
-
-// app.get("/demouser", async (req, res) => {
-//   let fakeUser = new User({
-//     email: "student@gmail.com",
-//     username: "student-iitb",
-//   });
-
-//   let registeredUSer = await User.register(fakeUser, "Helloworld"); //will save the fake user with password Helloworld
-//   res.send(registeredUSer);
-// });
-
-// app.all("*", (req, res, next) => {
-//   //to handle routes other than the ones defined.
-//   // console.log("*****************");
-//   next(new ExpressError(404, "Page not found"));
-//   // next(new Error("Page not found"));
-// });
-
-app.get("/logout", (req, res,next)=>{
-  req.logout((err)=>{
-    if(err){
-      next(err);
-    }else{
-      req.flash("success", "you are logged out!");
-      res.redirect('/listings');
-    }
-  })
-})
+app.use("/logout", logoutRoute);
 
 app.use((err, req, res, next) => {
   // console.dir(err);
