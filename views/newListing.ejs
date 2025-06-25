@@ -1,6 +1,6 @@
 <%- layout("/layouts/boilerplate.ejs") %>
 
-<form class="form needs-validation" action="/listings" method="post" novalidate >
+<form class="form needs-validation" action="/listings" method="post" novalidate enctype="multipart/form-data">
   <h2 class="title" >Add new Listing</h2>
   <h4 class="form-label">Enter Title</h4>
   <input required class="form-control" name="title" placeholder="Enter title" />
@@ -38,8 +38,8 @@
   <input required class="form-control" name="price" placeholder="Enter price" type="number" />
   <div class="invalid-feedback">Please enter appropriate Price</div>
   <br />
-  <h4 class="form-label">Enter image link/URL</h4>
-  <input class="form-control" name="image[url]" placeholder="Enter image url" />
+  <h4 class="form-label">Upload Image</h4>
+  <input type="file" class="form-control" name="image[url]" />
   <br />
   <button class="btn">Add</button>
 </form>

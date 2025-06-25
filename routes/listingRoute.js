@@ -4,6 +4,9 @@ const wrapAsync = require("../utils/wrapAsync");
 const Listing = require("../models/listing.js");
 const mongoose = require("mongoose");
 const flash = require("connect-flash");
+const multer  = require('multer')
+const {storage} = require("../cloudconfig.js");
+const upload = multer({ storage })
 
 const listingsController = require("../controller/listingsController.js");
 const {
@@ -15,18 +18,20 @@ const methodOverride = require("method-override");
 
 const { Listingschema, reviewSchema } = require("../schema.js");
 
-//Home page- All listings
-router.get("/", listingsController.GetAllListings);
+router
+  .route("/")
+  .get(listingsController.GetAllListings)
+  .post(isLoggedIn,
+  upload.single('image[url]'),
+  wrapAsync(listingsController.NewListingPost),
+  ValidateListings,
+  )
+  // .post(upload.single('image[url]'), (req, res) =>{
+  //   res.send(req.file);
+  // })
 
 //new listing serve form
 router.get("/newUser", isLoggedIn, listingsController.ServeNewListing);
-
-//new listing
-router.post(
-  "/",
-  ValidateListings,
-  wrapAsync(listingsController.NewListingPost)
-);
 
 router.get(
   "/:id/edit",
@@ -35,24 +40,18 @@ router.get(
   wrapAsync(listingsController.ServeEditForm)
 );
 
-//edit form receive route
-router.post(
-  "/:id",
-  isLoggedIn,
+router
+  .route("/:id")
+  .get(wrapAsync(listingsController.GetIndiListing))
+  .post( isLoggedIn,
   isOwner,
+  upload.single('image[url]'),
   ValidateListings,
-  wrapAsync(listingsController.EditFormPost)
-);
-
-//delete route
-router.delete(
-  "/:id",
+  wrapAsync(listingsController.EditFormPost))
+  .delete(
   isLoggedIn,
   isOwner,
-  wrapAsync(listingsController.DeleteListing)
-);
+  wrapAsync(listingsController.DeleteListing))
 
-//show individual listing route
-router.get("/:id", wrapAsync(listingsController.GetIndiListing));
 
 module.exports = router;

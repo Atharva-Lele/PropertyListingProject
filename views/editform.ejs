@@ -1,5 +1,5 @@
 <%- layout("/layouts/boilerplate.ejs") %>
-<form class="form" action="/listings/<%= result._id %>" method="post">
+<form class="form" action="/listings/<%= result._id %>" method="post" enctype="multipart/form-data">
   <!-- <h4 class="form-label">Enter Title</h4>
   <input class="form-control" name="title" value="<%= result.title %>" />
   <br />
@@ -48,8 +48,8 @@
   <h4 class="form-label"> Enter price</h4>
   <input value="<%= result.price%>" class="form-control" name="price" placeholder="Enter price" type="number" />
   <br />
-  <h4 class="form-label">Enter image link/URL</h4>
-  <input  value="<%= result.image.url %>" class="form-control" name="image[url]" placeholder="Enter image url" />
+  <h4 class="form-label">Upload New Image</h4>
+  <input class="form-control" name="image[url]" type="file" />
   <br />
   <button class="btn">Edit</button>
 

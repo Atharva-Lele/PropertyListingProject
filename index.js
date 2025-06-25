@@ -1,4 +1,11 @@
+// if(process.env.NODE_ENV != "production"){
+//   require('dotenv').config()
+// }
+
+// console.log(process.env.SECRET);
+require('dotenv').config()
 const express = require("express");
+
 const mongoose = require("mongoose");
 const Listing = require("../AirbnbClone/models/listing.js");
 const methodOverride = require("method-override");
@@ -10,6 +17,8 @@ const ExpressError = require("./utils/ExpressError.js");
 const flashSetter = require("./utils/flashSetter.js");
 
 const { Listingschema, reviewSchema } = require("./schema.js");
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
 const app = express();
 const path = require("path");
 const Review = require("./models/reviews.js");
@@ -70,7 +79,7 @@ async function main() {
   await mongoose.connect("mongodb://127.0.0.1:27017/airbnb");
 }
 
-app.listen(3000, () => {
+app.listen(8000, () => {
   console.log("Server connected");
 });
 

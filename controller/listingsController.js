@@ -50,9 +50,13 @@ module.exports.ServeNewListing = (req, res) => {
 }
 
 module.exports.NewListingPost = async (req, res, next) => {
+    let url = req.file.path;
+    let filename = req.file.filename;
+    
     let bodyObj = req.body;
     const newListing = new Listing(bodyObj);
     newListing.owner = req.user._id;
+    newListing.image = {filename, url};
     await newListing.save();
     req.flash("success", "New Listing Created!");
     res.redirect("/");
@@ -67,12 +71,23 @@ module.exports.ServeEditForm = async (req, res, next) => {
 
 module.exports.EditFormPost = async (req, res) => {
     let { id } = req.params;
-    let editbody = req.body;
-    Listing.findByIdAndUpdate(id, editbody).then(() => {
+    if(req.file){
+      let url = req.file.path;
+      let filename = req.file.filename;
+      let editbody = req.body;
+      editbody.image = {filename, url};
+      Listing.findByIdAndUpdate(id, editbody).then(() => {
       req.flash("success", "Listing updated!");
       res.redirect(`/listings/${id}`);
     });
-    console.log(editbody);
+    }else{
+      let editbody = req.body;
+      Listing.findByIdAndUpdate(id, editbody).then(() => {
+      req.flash("success", "Listing updated!");
+      res.redirect(`/listings/${id}`);
+    });
+
+    }  
 }
 
 module.exports.DeleteListing = async (req, res) => {
