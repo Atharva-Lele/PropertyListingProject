@@ -65,6 +65,9 @@ module.exports.NewListingPost = async (req, res, next) => {
 module.exports.ServeEditForm = async (req, res, next) => {
     let { id } = req.params;
     Listing.findById(id).then((result) => {
+      let originalImageUrl = result.image.url;
+      originalImageUrl = originalImageUrl.replace("/upload", "/upload/c_fill,w_200,h_200");
+      result = {...result, newUrl : originalImageUrl};
       res.render("editform.ejs", { result });
     });
 }

@@ -48,7 +48,7 @@ const flash = require("connect-flash");
 const session = require("express-session");
 
 const sessionObj = {
-  secret: "nottoshare",
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -76,7 +76,7 @@ main()
   .catch((e) => console.log(e));
 
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/airbnb");
+  await mongoose.connect(process.env.MONGO_LINK);
 }
 
 app.listen(8000, () => {

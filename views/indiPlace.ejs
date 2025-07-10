@@ -28,6 +28,17 @@
 
 
   <br />
+  <h3>Where you'll be</h3>
+  <div id="map"></div>
+  <script>
+	mapboxgl.accessToken = 'pk.eyJ1IjoibGVsZWF0aCIsImEiOiJjbWNvYzdycTQwMTk2MmxzYTFoN2ZxYnc3In0.2OGL7sfK4DZCZulu4EcTeQ';
+    const map = new mapboxgl.Map({
+        container: 'map', // container ID
+        center: [-74.5, 40], // starting position [lng, lat]. Note that lat must be set between -90 and 90
+        zoom: 9 // starting zoom
+    });
+  </script>
+  <br>
   <% if(currUser){ %>
   <h3>Leave a Review</h3>
   <form
@@ -94,4 +105,5 @@
     </div>
     <% } %>
   </div>
+
 </div>
